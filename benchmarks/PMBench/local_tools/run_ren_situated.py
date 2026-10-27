@@ -71,13 +71,14 @@ def main():
     argv=sys.argv[1:];index=argv.index('--candidate-mode');mode=argv[index+1];del argv[index:index+2]
     args=base.parse_args(argv)
     sources=[Path(__file__),NEEDS_SOURCE]+[Path(__file__).with_name(n) for n in
-        ('run_ren_grounded.py','run_ren_natural.py','ren_public_frames.py','ren_source_compiler.py','residual_policy.py')]
+        ('run_ren_grounded.py','run_ren_natural.py','ren_public_frames.py','ren_source_compiler.py','residual_policy.py','compiler_failure.py')]
     with patch.object(base,'Compiler',SourceCompiler):
         base.main(args=args,policy_factory=partial(GroundedRENPolicy,candidate_mode=mode),model_factory=SituatedModels,
             extra_sources=sources,extra_manifest=dict(ren_adapter='situated-v1',candidate_mode=mode,
                 shared_condition_decision=True,natural_language_entry=True,structured_oracle_contracts=False,
                 source_span_repair='unique case-insensitive match restored to exact observed span',
                 condition_scope='only trigger; date already enforced',observation_frames='quote-grounded public text only',
+                compiler_failure_policy='reject-truncated-compiler-batch-v1',
                 model_identity_retries=2,evidence_validity='current public step only; inferred by adapter',
                 receipt_interface_available=False,completion_feedback_exercised=False))
 

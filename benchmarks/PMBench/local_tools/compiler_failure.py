@@ -2,21 +2,22 @@
 from copy import deepcopy
 import hashlib,json
 
-POLICY='reject-truncated-intention-batch-v1'
+POLICY='reject-truncated-compiler-batch-v1'
+STAGES=('compile','compile_condition_contracts','compile_public_observation_frames')
 
 def digest(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
 
 def failure_cache_entry(request,records):
     """Preserve the exact incomplete response without parsing any proposals."""
-    assert request['stage']=='compile' and records
+    assert request['stage'] in STAGES and records
     last=records[-1];wire=last['request'];response=last['response']
-    assert last['stage']=='compile' and last['kind']=='llm'
+    assert last['stage']==request['stage'] and last['kind']=='llm'
     assert wire['model']==response['model']==request['model']
     assert wire['max_tokens']==request['max_tokens']
     assert len(response['choices'])==1 and response['choices'][0]['finish_reason']=='length'
     assert isinstance(response['choices'][0]['message']['content'],str)
-    failure=dict(policy=POLICY,reason='output_truncated',finish_reason='length',
+    failure=dict(policy=POLICY,stage=request['stage'],reason='output_truncated',finish_reason='length',
                  max_tokens=request['max_tokens'],raw_record_sha256=digest(last))
     return dict(request=deepcopy(request),terminal_failure=failure,records=deepcopy(records))
 
@@ -31,4 +32,4 @@ class TruncatedCompilation(RuntimeError):
         self.entry=validate_failure_cache(entry)
         assert key==digest(self.entry['request'])
         self.key=key
-        super().__init__('Truncated intention batch rejected; original response retained')
+        super().__init__('Truncated compiler batch rejected; original response retained')

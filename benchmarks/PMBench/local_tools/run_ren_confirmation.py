@@ -50,7 +50,7 @@ def main():
                 confirmation_per_week_limits=dict(responses=4000,input_tokens=12000000,returned_usd=2),
                 natural_language_entry=True,structured_oracle_contracts=False,private_step_timestamp_passed=False,
                 model_identity_retries=2,evidence_validity='current public step only; inferred by adapter',
-                intention_compile_failure_policy='reject-truncated-intention-batch-v1',
+                compiler_failure_policy='reject-truncated-compiler-batch-v1',
                 receipt_interface_available=False,completion_feedback_exercised=False))
 
 if __name__=='__main__':

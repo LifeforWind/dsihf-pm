@@ -44,7 +44,7 @@ def main():
                 source_span_repair='unique case-insensitive match restored to exact observed span',
                 condition_scope='only trigger; date already enforced',observation_frames='quote-grounded public text only',
                 model_identity_retries=2,evidence_validity='current public step only; inferred by adapter',
-                intention_compile_failure_policy='reject-truncated-intention-batch-v1',
+                compiler_failure_policy='reject-truncated-compiler-batch-v1',
                 receipt_interface_available=False,completion_feedback_exercised=False))
 
 if __name__=='__main__':main()

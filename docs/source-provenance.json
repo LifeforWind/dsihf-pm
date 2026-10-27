@@ -43,7 +43,7 @@
       "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
       "source_path": "local_tools/audit_qwen_ren.py",
       "source_sha256": "4663c69e2327615eb086c443ef95cb53fec763eb2a43e0aaa18c9d6a8d0ddd73",
-      "release_sha256": "5e747aafe47eb082b4cce2cafa45781d41206764ca81a1ef8dea9bb86db0a783",
+      "release_sha256": "562c89cd8df8a11178521244508d01fa292c1ec146d16f28d5a085c98bd8184f",
       "modified_for_release": true
     },
     {
@@ -178,8 +178,8 @@
       "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
       "source_path": "local_tools/ren_public_frames.py",
       "source_sha256": "dc3938a7dccdcb3ad8778c7cd4d1cbec0402a0ef8d566ee0fd5c2152f976c101",
-      "release_sha256": "dc3938a7dccdcb3ad8778c7cd4d1cbec0402a0ef8d566ee0fd5c2152f976c101",
-      "modified_for_release": false
+      "release_sha256": "185bad5f0ce2bacb6c4c652c9766b411d15864d06b3257d7b977827c85c7649a",
+      "modified_for_release": true
     },
     {
       "path": "benchmarks/PMBench/local_tools/ren_source_compiler.py",
@@ -277,7 +277,7 @@
       "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
       "source_path": "local_tools/run_ren_confirmation.py",
       "source_sha256": "5c607cf9620c3768cb2bb2b776e0548db09c581a5f395097bc40cb1a40b9ec46",
-      "release_sha256": "170e40fafa0668b3032fe01345e54ea76ab04fecc306d98ea66ba3d68d4e3059",
+      "release_sha256": "32455df9ef3558d110b2d0b82f12c9cbb77bd000b6f69d31cc27d0e7936c7c78",
       "modified_for_release": true
     },
     {
@@ -295,7 +295,7 @@
       "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
       "source_path": "local_tools/run_ren_natural.py",
       "source_sha256": "830c229b585f754872517e3d74d212d8c00fc43b3856227083efe7d4711ff33f",
-      "release_sha256": "724a6c5b0b0b3f22cd5585003ef1cf77f5454467d0a8f830e81d471405913e6a",
+      "release_sha256": "db65f38a64ca149fb9c26f4e2286d34dee46fed6c284032c0e85e1fac6d4b599",
       "modified_for_release": true
     },
     {
@@ -304,8 +304,8 @@
       "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
       "source_path": "local_tools/run_ren_situated.py",
       "source_sha256": "bd2073907213ba70d44840d86a8999f49d4a39163ec2a6d3a3f3d63a56fcdc26",
-      "release_sha256": "bd2073907213ba70d44840d86a8999f49d4a39163ec2a6d3a3f3d63a56fcdc26",
-      "modified_for_release": false
+      "release_sha256": "f4da7c3c87cdbf299a40e3abc36b0a7ade4b3157813adb48d8d16b1378a15355",
+      "modified_for_release": true
     },
     {
       "path": "benchmarks/PMBench/local_tools/run_ren_verified.py",
@@ -313,7 +313,7 @@
       "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
       "source_path": "local_tools/run_ren_verified.py",
       "source_sha256": "339030fe6895a8828ad84173b6c18108b27056db06a3609c41bc846ca2d32abf",
-      "release_sha256": "0d5006fa28721065660fb17efdb99aa1173994edf27c850e0d7ff162de767a85",
+      "release_sha256": "6f03654d5a23c90dfd6192fab0bcc3bf3fd7598af419115f11bfa59ba1318b68",
       "modified_for_release": true
     },
     {

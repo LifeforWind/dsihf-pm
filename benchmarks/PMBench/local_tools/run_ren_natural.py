@@ -17,7 +17,7 @@ import time
 import run_recommendation as base
 from run_intentions import obj, deterministic_trigger, prospective
 from residual_policy import EvidenceNeeds, Condition, TaskSpec, SOURCE as NEEDS_SOURCE
-from compiler_failure import TruncatedCompilation, failure_cache_entry, validate_failure_cache
+from compiler_failure import TruncatedCompilation, failure_cache_entry, validate_failure_cache, STAGES
 
 SCENE = '__visible_scene__'
 RECEIPT = '__unavailable_execution_receipt__'
@@ -103,7 +103,7 @@ class NaturalModels(base.CachedModels):
                     result = super().chat(stage, messages, schema, max_tokens)
                     break
                 except Exception as exc:
-                    if stage=='compile' and type(exc) is RuntimeError and str(exc)=='Incomplete model response: length':
+                    if stage in STAGES and type(exc) is RuntimeError and str(exc)=='Incomplete model response: length':
                         failed=failure_cache_entry(request,self.records[before:])
                         base.write_json(path,failed)
                         base.append(self.out/'natural_chat_requests.jsonl',dict(stage=stage,key=key))
@@ -181,8 +181,15 @@ class NaturalRENPolicy(base.RecommendationPolicy):
         state = dict(channels=[*channels,SCENE], intentions=[dict(id=i.id,**i.spec(),
             sources=i.sources) for i in events])
         messages = [dict(role='system',content=PROMPT),dict(role='user',content=json.dumps(state))]
-        result = self.models.chat('compile_condition_contracts',messages,SCHEMA,5500)
-        rows, duplicates, issues = validated_condition_contracts(result['contracts'],[i.id for i in events])
+        try:
+            result = self.models.chat('compile_condition_contracts',messages,SCHEMA,5500)
+        except TruncatedCompilation as failure:
+            base.append(self.out/'compiler_failures.jsonl',dict(day=self.day,step=self.step,
+                operation='reject_truncated_decomposition_use_existing_whole_trigger_fallback',
+                chat_cache_key=failure.key,**failure.entry['terminal_failure'],parsed_conditions=0))
+            rows={i.id:[] for i in events};duplicates=[];issues={}
+        else:
+            rows, duplicates, issues = validated_condition_contracts(result['contracts'],[i.id for i in events])
         if duplicates:
             base.append(self.out/'contract_normalizations.jsonl', dict(
                 operation='collapse_exact_duplicate_contract_records',

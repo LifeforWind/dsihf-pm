@@ -5,7 +5,8 @@ from unittest.mock import patch
 import tempfile,unittest,json,io,http.client,urllib.request,os
 from compiler_failure import failure_cache_entry,validate_failure_cache,TruncatedCompilation
 from ren_source_compiler import SourceCompiler
-from run_ren_natural import NaturalModels
+from run_ren_natural import NaturalModels,NaturalRENPolicy,SCHEMA as CONTRACTS_SCHEMA
+from ren_public_frames import normalize,SCHEMA as FRAMES_SCHEMA
 from run_intentions import Models,PROPOSALS_SCHEMA
 from openmodel_config import MODEL
 from qwen_transport import payload_for,map_disconnect
@@ -162,5 +163,44 @@ class DisconnectHandlingTests(unittest.TestCase):
 
     def test_semantic_failure_is_never_mapped_or_retried(self):
         self.assertEqual(self.exercise('semantic'),(1,0,None,'semantic marker'))
+
+class TruncatedStagesTests(unittest.TestCase):
+    def fixture(self,out):
+        from test_ren_natural import FixtureModels
+        model=FixtureModels(out)
+        def chat(stage,messages,schema,max_tokens):
+            request=dict(stage=stage,model=MODEL,messages=messages,schema=schema,max_tokens=max_tokens,
+                         temperature=0,route='configured-direct')
+            record=dict(stage=stage,kind='llm',request=payload_for(stage,messages,schema,max_tokens),
+                        response=dict(model=MODEL,choices=[dict(finish_reason='length',message=dict(content='unusable partial batch'))]))
+            entry=failure_cache_entry(request,[record])
+            from compiler_failure import digest
+            raise TruncatedCompilation(digest(request),entry)
+        model.chat=chat
+        return model
+
+    def test_truncated_decomposition_keeps_exact_accepted_trigger_and_no_truth(self):
+        with tempfile.TemporaryDirectory() as temp:
+            out=Path(temp);model=self.fixture(out)
+            policy=NaturalRENPolicy(model,None,out,routing='compiled',query_policy='round_robin',query_budget=3)
+            policy.day='Monday';policy.step=1;policy.vignette='Waiting.'
+            policy.store.observe('initial',intent()['source_quote'],'Monday',1)
+            policy.store.apply(intent(),'initial');before=deepcopy(policy.store.dump())
+            policy.prepare_active(policy.store.active('Monday'),['email','clock'])
+            task=policy.needs.tasks['invoice@Monday']
+            self.assertEqual(policy.store.dump(),before)
+            self.assertEqual([c.description for c in task.conditions],['Approval arrives.'])
+            self.assertFalse(policy.needs.ready(task))
+            self.assertFalse(rows(out/'condition_contracts.jsonl')[0]['accepted'])
+            self.assertEqual(rows(out/'compiler_failures.jsonl')[0]['parsed_conditions'],0)
+
+    def test_truncated_public_frames_add_no_facts_and_keep_observed_text(self):
+        with tempfile.TemporaryDirectory() as temp:
+            out=Path(temp);model=self.fixture(out);text='The account balance is low.'
+            frames=normalize(model,'bank',text)
+            self.assertEqual(frames['facts'],[]);self.assertEqual(frames['rejected'],[])
+            self.assertEqual(frames['failure']['max_tokens'],1800)
+            self.assertEqual(frames['failure']['parsed_facts'],0)
+            self.assertEqual(frames['failure']['operation'],'reject_truncated_public_frames_preserve_original_observation')
 
 if __name__=='__main__':unittest.main()

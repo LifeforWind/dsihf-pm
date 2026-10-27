@@ -9,6 +9,11 @@ from run_intentions import PROPOSALS_SCHEMA
 from qwen_transport import MODEL, TRANSPORT, BASE_URL, payload_for, validate_response
 from openmodel_config import TEMPLATE, PROFILE
 from compiler_failure import validate_failure_cache
+from run_ren_natural import SCHEMA as CONTRACTS_SCHEMA
+from ren_public_frames import SCHEMA as FRAMES_SCHEMA
+
+FAILURE_SCHEMAS=dict(compile=PROPOSALS_SCHEMA,compile_condition_contracts=CONTRACTS_SCHEMA,
+                     compile_public_observation_frames=FRAMES_SCHEMA)
 
 TRACE_FILES = ('decisions.jsonl','queries.jsonl','recommendations.jsonl','revisions.jsonl',
     'condition_contracts.jsonl','condition_evidence.jsonl','observation_bindings.jsonl',
@@ -44,7 +49,7 @@ def provenance(week):
         validate_response(last['response'],req['schema'])
         if 'terminal_failure' in c:
             validate_failure_cache(c)
-            assert req['stage']=='compile' and req['schema']==PROPOSALS_SCHEMA
+            assert req['stage'] in FAILURE_SCHEMAS and req['schema']==FAILURE_SCHEMAS[req['stage']]
             failed_chats+=1
         else:
             assert last['response']['choices'][0]['finish_reason'] == 'stop'
