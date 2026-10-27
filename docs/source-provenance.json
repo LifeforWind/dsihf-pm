@@ -187,8 +187,8 @@
       "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
       "source_path": "local_tools/ren_source_compiler.py",
       "source_sha256": "f32b1182bbfa9263a1494b7cc9548c8f73e3654d0d38d4764e72a7ffb9c53d59",
-      "release_sha256": "f32b1182bbfa9263a1494b7cc9548c8f73e3654d0d38d4764e72a7ffb9c53d59",
-      "modified_for_release": false
+      "release_sha256": "54770aebb62e436d55ba994842e5c483640af4d041e892148fb8bfc66004a063",
+      "modified_for_release": true
     },
     {
       "path": "benchmarks/PMBench/local_tools/residual_policy.py",
