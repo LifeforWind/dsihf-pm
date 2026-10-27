@@ -117,27 +117,46 @@ class NaturalAdapterTests(unittest.TestCase):
         log = json.loads((self.out/'contract_normalizations.jsonl').read_text())
         self.assertEqual(log['duplicates'], [dict(id='pay',kept_index=0,duplicate_index=1)])
         self.assertEqual(len(self.p.needs.tasks['pay@Monday'].conditions), 1)
-    def test_conflicting_duplicate_fails_before_verification(self):
-        self.fixed_contracts([dict(id='pay',conditions=[dict(description='Funds',channels=['bank'])]),
+    def test_conflicting_duplicate_uses_whole_trigger_without_selecting_a_record(self):
+        result,before=self.fixed_contracts([dict(id='pay',conditions=[dict(description='Funds',channels=['bank'])]),
                               dict(id='pay',conditions=[dict(description='Approval',channels=['email'])])])
-        with self.assertRaisesRegex(RuntimeError, 'Conflicting duplicate'):
-            self.active()
-        self.assertFalse(self.models.inputs)
+        self.active()
+        self.assertEqual(result,before)
+        t=self.p.needs.tasks['pay@Monday'];self.assertEqual(len(t.conditions),1)
+        self.assertEqual(t.conditions[0].description,'Funds and approval arrived')
+        self.assertEqual(t.conditions[0].channels,('bank',))
         self.assertEqual(self.chat_calls, 1)
     def test_reordered_channels_are_not_silently_treated_as_identical(self):
         self.fixed_contracts([dict(id='pay',conditions=[dict(description='Funds',channels=['bank','email'])]),
                               dict(id='pay',conditions=[dict(description='Funds',channels=['email','bank'])])])
-        with self.assertRaisesRegex(RuntimeError, 'Conflicting duplicate'):
-            self.active()
-    def test_missing_and_extra_ids_still_fail(self):
+        self.active()
+        self.assertEqual(self.p.needs.tasks['pay@Monday'].conditions[0].description,'Funds and approval arrived')
+    def test_missing_and_extra_ids_reject_decomposition_and_keep_trigger(self):
         for records in ([], [dict(id='other',conditions=[])]):
             with self.subTest(records=records):
                 self.fixed_contracts(records)
-                with self.assertRaisesRegex(RuntimeError, 'Missing or extra'):
-                    self.active()
+                self.p.contracts={}
+                self.active()
+                self.assertEqual(self.p.needs.tasks['pay@Monday'].conditions[0].description,'Funds and approval arrived')
     def test_unique_response_does_not_emit_normalization(self):
         self.active()
         self.assertFalse((self.out/'contract_normalizations.jsonl').exists())
+
+    def test_conflict_does_not_discard_other_valid_decomposition_or_assert_readiness(self):
+        self.add('other')
+        self.fixed_contracts([
+            dict(id='pay',conditions=[dict(description='Funds',channels=['bank'])]),
+            dict(id='other',conditions=[dict(description='Funds',channels=['bank']),
+                                        dict(description='Approval',channels=['email'])]),
+            dict(id='pay',conditions=[dict(description='Approval',channels=['email'])]),
+        ])
+        active=self.active()
+        self.assertEqual(len(self.p.needs.tasks['pay@Monday'].conditions),1)
+        self.assertEqual(len(self.p.needs.tasks['other@Monday'].conditions),2)
+        self.assertFalse(self.p.eligible_for_decision(active[0],{}))
+        log=[json.loads(x) for x in (self.out/'condition_contracts.jsonl').read_text().splitlines()]
+        self.assertFalse(log[0]['accepted']);self.assertTrue(log[1]['accepted'])
+        self.assertEqual(self.chat_calls,1)
 
     def test_rotation_and_query_cap(self):
         a=self.active();self.assertEqual(self.p.next_query(a,{},['bank','email','clock']),'bank')

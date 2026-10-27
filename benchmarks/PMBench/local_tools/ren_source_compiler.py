@@ -6,6 +6,35 @@ from run_intentions import IntentionStore,COMPILER_PROMPT,PROPOSALS_SCHEMA,appen
 ELLIPSIS = re.compile(r'\.{3,}|\u2026+')
 
 
+def anchored_span(groups,text):
+    """Return a span only when all proposed anchor layouts identify one place."""
+    spans = set()
+    boundaries = [0, *[m.end() for m in re.finditer(r'[.!?](?=\s|$)|[;\r\n]',text)], len(text)]
+    for anchors in groups:
+        if len(anchors)<2 or any(not part or not re.search(r'\w',part) for part in anchors):
+            continue
+        # Lookahead retains overlapping occurrences, which also count as ambiguity.
+        patterns = [re.compile(r'(?=('+re.escape(part)+r'))',re.IGNORECASE) for part in anchors]
+        for start,end in zip(boundaries,boundaries[1:]):
+            block = text[start:end]
+            for first in patterns[0].finditer(block):
+                position = first.end(1)
+                for pattern in patterns[1:-1]:
+                    match = pattern.search(block,position)
+                    if match is None:
+                        break
+                    position = match.end(1)
+                else:
+                    for last in patterns[-1].finditer(block,position):
+                        spans.add((start+first.start(1),start+last.end(1)))
+                        if len(spans)>1:
+                            return None
+    if not spans:
+        return None
+    start,end = spans.pop()
+    return text[start:end]
+
+
 def ellipsis_span(quote,text):
     """Restore one unique, contiguous observed span from literal quote anchors.
 
@@ -15,29 +44,21 @@ def ellipsis_span(quote,text):
     anchors = [part.strip() for part in ELLIPSIS.split(quote)]
     if len(anchors)<2 or any(not part or not re.search(r'\w',part) for part in anchors):
         return None
-    # Lookahead retains overlapping occurrences, which also count as ambiguity.
-    patterns = [re.compile(r'(?=('+re.escape(part)+r'))',re.IGNORECASE) for part in anchors]
-    spans = set()
-    boundaries = [0, *[m.end() for m in re.finditer(r'[.!?](?=\s|$)|[;\r\n]',text)], len(text)]
-    for start,end in zip(boundaries,boundaries[1:]):
-        block = text[start:end]
-        for first in patterns[0].finditer(block):
-            position = first.end(1)
-            # Earliest intervening anchors admit every possible terminal span.
-            for pattern in patterns[1:-1]:
-                match = pattern.search(block,position)
-                if match is None:
-                    break
-                position = match.end(1)
-            else:
-                for last in patterns[-1].finditer(block,position):
-                    spans.add((start+first.start(1),start+last.end(1)))
-                    if len(spans)>1:
-                        return None
-    if not spans:
+    return anchored_span([anchors],text)
+
+
+def omitted_span(quote,text):
+    """Restore one implicit gap, keeping a literal prefix of at least two words.
+
+    Every quoted character stays in order in two literal anchors. No words are
+    substituted or reordered, and all possible gap positions must agree.
+    """
+    words = list(re.finditer(r'\S+',quote))
+    if len(words)<4:
         return None
-    start,end = spans.pop()
-    return text[start:end]
+    groups = [[quote[:words[i-1].end()].strip(),quote[words[i].start():].strip()]
+              for i in range(2,len(words))]
+    return anchored_span(groups,text)
 
 
 def source_span(quote,text):
@@ -46,7 +67,7 @@ def source_span(quote,text):
     matches=list(re.finditer(re.escape(quote),text,re.IGNORECASE))
     if len(matches)==1:return text[matches[0].start():matches[0].end()]
     if matches:return None
-    return ellipsis_span(quote,text) if ELLIPSIS.search(quote) else None
+    return ellipsis_span(quote,text) if ELLIPSIS.search(quote) else omitted_span(quote,text)
 
 
 def repair_proposal(proposal,text):
@@ -56,7 +77,9 @@ def repair_proposal(proposal,text):
         proposal['source_quote']=actual
         reason = ('unique case-insensitive span restored to exact observed bytes'
                   if re.fullmatch(re.escape(old),actual,re.IGNORECASE) else
-                  'unique same-line ellipsis expansion restored to exact observed bytes')
+                  'unique same-line ellipsis expansion restored to exact observed bytes'
+                  if ELLIPSIS.search(old) else
+                  'unique same-line omitted span restored to exact observed bytes')
         changes.append([proposal['id'],'source_quote',old,actual,reason])
     spec=proposal['spec']
     clock=re.fullmatch(r'The clock reaches ([0-2][0-9]:[0-5][0-9])[.!]?',spec['trigger'],re.I)

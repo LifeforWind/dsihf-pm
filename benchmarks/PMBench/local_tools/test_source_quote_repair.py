@@ -60,6 +60,24 @@ class QuoteGroundingTests(unittest.TestCase):
     def test_internal_anchor_paths_with_same_outer_span_are_not_ambiguous(self):
         self.assertEqual(source_span('A ... B ... C','A B B C'),'A B B C')
 
+    def test_one_unmarked_omission_restores_unique_original(self):
+        for quote,text in [
+            ('Take medication at dinner.','Take medication at breakfast and dinner.'),
+            ('Take asthma medication at 21:00.','Take asthma medication at 11:00 and 21:00.'),
+            ('Send the receipt Friday.','Send the receipt before Friday.'),
+        ]:
+            with self.subTest(quote=quote):self.assertEqual(source_span(quote,text),text)
+
+    def test_unmarked_omission_rejects_weak_or_unseen_or_reordered_anchors(self):
+        for quote,text in [
+            ('Do send invoice.','Do not send invoice.'),
+            ('Take medication at lunch.','Take medication at breakfast and dinner.'),
+            ('Send receipt the Friday.','Send the receipt before Friday.'),
+            ('Send the receipt Friday.','Send the receipt. Then wait until Friday.'),
+            ('Send the receipt Friday.','Send the receipt before Friday. Send the receipt after Friday.'),
+        ]:
+            with self.subTest(quote=quote,text=text):self.assertIsNone(source_span(quote,text))
+
     def test_repair_preserves_proposal_semantics_and_original_response(self):
         original=proposal('Take medication at ... dinner.');before=deepcopy(original)
         fixed,changes=repair_proposal(original,'Take medication at breakfast and dinner.')

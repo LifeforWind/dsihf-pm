@@ -120,6 +120,28 @@ def unique_condition_contracts(contracts):
     return {key: row['conditions'] for key, row in first.items()}, duplicates
 
 
+def validated_condition_contracts(contracts,expected):
+    """Treat unusable decompositions as malformed; keep the accepted trigger."""
+    groups = {}
+    for index,row in enumerate(contracts):
+        groups.setdefault(row['id'],[]).append((index,row))
+    missing = sorted(set(expected)-set(groups));extra = sorted(set(groups)-set(expected))
+    issues = dict(missing_ids=missing,extra_ids=extra,conflicting_ids=[])
+    if missing or extra:
+        return {key:[] for key in expected},[],issues
+    rows,duplicates = {},[]
+    for key,entries in groups.items():
+        index,first = entries[0]
+        if any(row!=first for _,row in entries[1:]):
+            rows[key]=[]
+            issues['conflicting_ids'].append(dict(id=key,record_indices=[i for i,_ in entries]))
+        else:
+            rows[key]=first['conditions']
+            duplicates.extend(dict(id=key,kept_index=index,duplicate_index=i) for i,_ in entries[1:])
+    duplicates.sort(key=lambda row:row['duplicate_index'])
+    return rows,duplicates,issues
+
+
 class NaturalRENPolicy(base.RecommendationPolicy):
     def __init__(self, *args, candidate_mode='remaining', **kwargs):
         super().__init__(*args, **kwargs)
@@ -146,14 +168,16 @@ class NaturalRENPolicy(base.RecommendationPolicy):
             sources=i.sources) for i in events])
         messages = [dict(role='system',content=PROMPT),dict(role='user',content=json.dumps(state))]
         result = self.models.chat('compile_condition_contracts',messages,SCHEMA,5500)
-        rows, duplicates = unique_condition_contracts(result['contracts'])
+        rows, duplicates, issues = validated_condition_contracts(result['contracts'],[i.id for i in events])
         if duplicates:
             base.append(self.out/'contract_normalizations.jsonl', dict(
                 operation='collapse_exact_duplicate_contract_records',
                 day=self.day, step=self.step, duplicates=duplicates,
                 input_records=len(result['contracts']), unique_records=len(rows)))
-        if set(rows) != {i.id for i in events}:
-            raise RuntimeError('Missing or extra decomposed intention')
+        if any(issues.values()):
+            base.append(self.out/'contract_normalizations.jsonl',dict(
+                operation='reject_invalid_decomposition_use_existing_whole_trigger_fallback',
+                day=self.day,step=self.step,issues=issues,original_contracts=result['contracts']))
         questions, malformed = {}, set()
         for n,i in enumerate(events):
             conditions = rows[i.id]
