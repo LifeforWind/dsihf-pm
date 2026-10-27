@@ -1,0 +1,6 @@
+{
+  "PMBench": {"url": "https://github.com/genglinliu/PMBench.git", "commit": "e1093c470c8981daf522d4ef047a7c3a71e077d7", "destination": ".deps/PMBench", "sparse": ["sim", "data/synthetic_week_v9.json"]},
+  "PIS": {"url": "https://github.com/ChengcanWu/prospective-memory-reaearch.git", "commit": "43e9b426a478bdd6b4e6fb12cb609ca26bd71ff9", "destination": "benchmarks/PIS", "sparse": ["code", "LICENSE", "requirements.txt", "data.zip"]},
+  "proactive-memory-agent": {"url": "https://github.com/yifannnwu/proactive-memory-agent.git", "commit": "89e5c0d6aadfe531a1aee42fd290d48be89973dd", "destination": "benchmarks/proactive-memory-agent", "sparse": ["src", "pyproject.toml", "README.md", "LICENSE"]},
+  "mem0": {"url": "https://github.com/mem0ai/mem0.git", "commit": "0724291bd864cf807e88ee8981c8226644e8fb42", "destination": "benchmarks/mem0", "sparse": ["mem0", "pyproject.toml", "README.md", "LICENSE"]}
+}

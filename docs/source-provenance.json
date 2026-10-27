@@ -1,0 +1,527 @@
+{
+  "description": "Code-only source inventory, not experiment results. Release modifications are identified by differing hashes.",
+  "sources": [
+    {
+      "path": "benchmarks/PMBench/local_tools/amem_worker.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/amem_worker.py",
+      "source_sha256": "09a551d04b6bc9fa07854f1bb64dd3e9d50917d2d161170e7191008f01b74134",
+      "release_sha256": "09a551d04b6bc9fa07854f1bb64dd3e9d50917d2d161170e7191008f01b74134",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/analyze_amem_small.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/analyze_amem_small.py",
+      "source_sha256": "a892b9f47c9cc1206f9ace5c32316aea61856190aa91b6dd80cdb11f5461341c",
+      "release_sha256": "a892b9f47c9cc1206f9ace5c32316aea61856190aa91b6dd80cdb11f5461341c",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/analyze_recommendation.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/analyze_recommendation.py",
+      "source_sha256": "1538190c4a3e3898e67c3af152dcc821d6753a3a2ae5acde815b493872385821",
+      "release_sha256": "1538190c4a3e3898e67c3af152dcc821d6753a3a2ae5acde815b493872385821",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/audit_confirmation_delivery.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/audit_confirmation_delivery.py",
+      "source_sha256": "a608c2592488efc297d68fa85ec146ba6c403d0ddb817fba0237b8dd1f4620dc",
+      "release_sha256": "74f6459bdc177410af4b16db388e1bdd6476cebbf46ad628766e71cc181dc2ba",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/audit_qwen_ren.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/audit_qwen_ren.py",
+      "source_sha256": "4663c69e2327615eb086c443ef95cb53fec763eb2a43e0aaa18c9d6a8d0ddd73",
+      "release_sha256": "c7a2f3b091a775adcd8280fa6e94b4ce4721a00a00c4ebd21142d87c66425c6b",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/audit_ren_confirmation.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/audit_ren_confirmation.py",
+      "source_sha256": "4d485f0bdd9ccbb2de354f5d5b87d91fe9f25a1fb5b524394b6652fd0fcfcab9",
+      "release_sha256": "449408b781fb6033b95bad6629e7622eb66db861fad22e6a0cca8ee855919be0",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/audit_step3_baselines.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/audit_step3_baselines.py",
+      "source_sha256": "b95d8486eadbced3db2a8be7d458243d0ef86a5e3f0db17db96ca0faccd7fc7b",
+      "release_sha256": "e641076196a7dd864074e4519f3862574318cca8e0025b0d120d31adf5e2ab5b",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/audit_verified_context.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/audit_verified_context.py",
+      "source_sha256": "60a623f7f20517325bda0fd589e7bd4a2176e2e6a71d8e2e67f659fa5f4c4fc7",
+      "release_sha256": "f64b433ad2febc3e7fdea84278d5b734562f7994855d749a0da566cd490d58de",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/embedding_redirect.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/embedding_redirect.py",
+      "source_sha256": "6f7cc4874b4d031919b490dc3fa548e5105c218c23d8a52aabce2dc6271a6e24",
+      "release_sha256": "1f993eb917e957e03d6cafde5582581e0b87fb68021b0f2af8c9de9e952b185e",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/matched_budget.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/matched_budget.py",
+      "source_sha256": "5cef159cbeaec1e5f3911e32de1936ec04b0dd1df916e0331b8687984a6f27fb",
+      "release_sha256": "5cef159cbeaec1e5f3911e32de1936ec04b0dd1df916e0331b8687984a6f27fb",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/memory_methods.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/memory_methods.py",
+      "source_sha256": "ffe457a748b2e24f30243346634b62e7daefce475f32925eadcdbcd934345bbc",
+      "release_sha256": "9405497d2d8fc63d59ab90139703b447711381c821f9a80dabbee19c9ff43b23",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/memory_transport.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/memory_transport.py",
+      "source_sha256": "9dc1bf76eead62bd9066616b98b30d7dabff1dbabdd9606dbe6ecce08f576cec",
+      "release_sha256": "9dc1bf76eead62bd9066616b98b30d7dabff1dbabdd9606dbe6ecce08f576cec",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/model_identity.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/model_identity.py",
+      "source_sha256": "b76575e2df9ed5bb477b8d278f6ce94cf1a611c7963eb7d17e86eae6654b5d64",
+      "release_sha256": "b76575e2df9ed5bb477b8d278f6ce94cf1a611c7963eb7d17e86eae6654b5d64",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/numeric_audit.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/numeric_audit.py",
+      "source_sha256": "18d5403b1c3964d26b34d4f9c92be95ca49d2d9a99252c6643468fa5d4115e31",
+      "release_sha256": "18d5403b1c3964d26b34d4f9c92be95ca49d2d9a99252c6643468fa5d4115e31",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/openmodel_config.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/openmodel_config.py",
+      "source_sha256": "e05b93c5037f0279e680c4fd31c0d40b00399017959563faac09e46f3aac62e4",
+      "release_sha256": "7b527db37a3a84232b0dff141b0ba5fd59d6a9084494e9ef9f497ed0c93cdcd6",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/qwen_transport.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/qwen_transport.py",
+      "source_sha256": "f9fde3bae2c2acf43b15150717b9a6ad4b3727032f4be66f93ca0fdb82e0dac1",
+      "release_sha256": "cc69b601112b4e134be57da501a64ad9ee98ed8986500667dc006980f40a5372",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/qwen_wire.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/qwen_wire.py",
+      "source_sha256": "c454ef6381c03d42139bac4ac93fd44d6c9c871ef251f1aad6ea776160d1fe1e",
+      "release_sha256": "be7975a0b0811bf117bbc3b5fc34a9cb8ced04e1167ebd4b3b979da431f2dfeb",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/relay_transport.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/relay_transport.py",
+      "source_sha256": "beaddefd91c43fbe20ce339afda02603f42084baffbfc1de58b8b88143fef852",
+      "release_sha256": "beaddefd91c43fbe20ce339afda02603f42084baffbfc1de58b8b88143fef852",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/ren_confirmation_policy.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/ren_confirmation_policy.py",
+      "source_sha256": "ba825655e5ef14cd98f271402c475bfa549a55019e3ace5bb656dc0a2392e8ef",
+      "release_sha256": "ba825655e5ef14cd98f271402c475bfa549a55019e3ace5bb656dc0a2392e8ef",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/ren_public_frames.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/ren_public_frames.py",
+      "source_sha256": "dc3938a7dccdcb3ad8778c7cd4d1cbec0402a0ef8d566ee0fd5c2152f976c101",
+      "release_sha256": "dc3938a7dccdcb3ad8778c7cd4d1cbec0402a0ef8d566ee0fd5c2152f976c101",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/ren_source_compiler.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/ren_source_compiler.py",
+      "source_sha256": "f32b1182bbfa9263a1494b7cc9548c8f73e3654d0d38d4764e72a7ffb9c53d59",
+      "release_sha256": "f32b1182bbfa9263a1494b7cc9548c8f73e3654d0d38d4764e72a7ffb9c53d59",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/residual_policy.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/residual_policy.py",
+      "source_sha256": "9e66baccad259aaab1d870b059773a96f066d6ee5a984495c6c779fddcf3ed2e",
+      "release_sha256": "9e66baccad259aaab1d870b059773a96f066d6ee5a984495c6c779fddcf3ed2e",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/residual_scenarios.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/residual_scenarios.py",
+      "source_sha256": "1c0d7660a917eeb054b9df18439b475fbb785af6f1c24dadd48bbb112be39b27",
+      "release_sha256": "1c0d7660a917eeb054b9df18439b475fbb785af6f1c24dadd48bbb112be39b27",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_amem_small.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_amem_small.py",
+      "source_sha256": "9439b090b1e4521c5612ef89711d8df3dd686b8656365bf036b1e5e65db040da",
+      "release_sha256": "76fbf73f17a93b7b4f4d22f22ee71f27ba5bc72c0acdb0df9fc2fe372978883b",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_author_pis.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_author_pis.py",
+      "source_sha256": "b640b666b4a417d1786e09fcb5fd9397c5f3915348ac3e84d04b2021ab782044",
+      "release_sha256": "7a1e5ca01aa4b9e90baef2d8199ba64a90209896c64ede64d58b214c47f87e01",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_intentions.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_intentions.py",
+      "source_sha256": "0fa552d087d97208f4c1ef236aaaec736042caae94ab8d2c63f102c67b8eaed9",
+      "release_sha256": "3e4703b7ff14e669edb53915d890ec2e230be615014036d22f430bd201f7f8fa",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_memory_baseline.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_memory_baseline.py",
+      "source_sha256": "a420a37dfbe315df8cae92b73a38d4ed9ae5763e718ab935726773a81b9eb4a1",
+      "release_sha256": "f76f678111bbc276cfc9b67566813d24f106e71779d918c3fc202e77df8ffafb",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_official_baselines.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_official_baselines.py",
+      "source_sha256": "1492f75e0fd4bb0e8abe765b7a82725b8329f1b00f747ef3b66ea739c782fa64",
+      "release_sha256": "377360fb8d3942eaab8789971939aa426aba39fdfda81081bf45b9b06edf5e9b",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_qwen_ren.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_qwen_ren.py",
+      "source_sha256": "b920990c9278690a7c64c5b27934bb98c3c51529d87215e84ceb532116f4b1a4",
+      "release_sha256": "e5dd9698bb77c63973a9ffd5b02b87e9aa0fb9a31b9080e35f1985294139dcfb",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_recommendation.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_recommendation.py",
+      "source_sha256": "9c2ee7fe4755a4d64b986ce9d6fee41e476f71f2eb2c3e03638a8d1fb03c9203",
+      "release_sha256": "6dbf9546fdb4dff03fc102519a95afc14e57e3b91ff1348814f3c6a2a02537b2",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_ren_confirmation.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_ren_confirmation.py",
+      "source_sha256": "5c607cf9620c3768cb2bb2b776e0548db09c581a5f395097bc40cb1a40b9ec46",
+      "release_sha256": "5c607cf9620c3768cb2bb2b776e0548db09c581a5f395097bc40cb1a40b9ec46",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_ren_grounded.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_ren_grounded.py",
+      "source_sha256": "459bc0773a869000c9a2b4b2a9d6ed5f6a8929aa74b334113a383c902e734160",
+      "release_sha256": "459bc0773a869000c9a2b4b2a9d6ed5f6a8929aa74b334113a383c902e734160",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_ren_natural.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_ren_natural.py",
+      "source_sha256": "830c229b585f754872517e3d74d212d8c00fc43b3856227083efe7d4711ff33f",
+      "release_sha256": "830c229b585f754872517e3d74d212d8c00fc43b3856227083efe7d4711ff33f",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_ren_situated.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_ren_situated.py",
+      "source_sha256": "bd2073907213ba70d44840d86a8999f49d4a39163ec2a6d3a3f3d63a56fcdc26",
+      "release_sha256": "bd2073907213ba70d44840d86a8999f49d4a39163ec2a6d3a3f3d63a56fcdc26",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_ren_verified.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_ren_verified.py",
+      "source_sha256": "339030fe6895a8828ad84173b6c18108b27056db06a3609c41bc846ca2d32abf",
+      "release_sha256": "339030fe6895a8828ad84173b6c18108b27056db06a3609c41bc846ca2d32abf",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_step3_baseline.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_step3_baseline.py",
+      "source_sha256": "84f65622746fdf9554d37f6295f6f4bafffc64ab2900ce0f040889494493078f",
+      "release_sha256": "637af8cbbf4db848bf740292d9ce97bbab171f96eeabda75983466aae9a2f657",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/run_step3_ren.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/run_step3_ren.py",
+      "source_sha256": "cb729e872042910827e2bf5f05a6a0ad83e544c533307f374a2f93945cf34137",
+      "release_sha256": "3ae495ed1e3c4718f327a5e495e056cfed868638d61fcf6bcb248d0087f08818",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/step3_budget.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/step3_budget.py",
+      "source_sha256": "96435a523267790cb18b608a4d40363a0bd4bd11444349aaa2eb3b6be50c437b",
+      "release_sha256": "96435a523267790cb18b608a4d40363a0bd4bd11444349aaa2eb3b6be50c437b",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_author_pis.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_author_pis.py",
+      "source_sha256": "0e6460d7460f8e1715ef2a5e8acc62519bc172f819b621b096cbf2b36ca09919",
+      "release_sha256": "ac03868bf2d9082f9e07e725df0ff80883282c6b1d45325769bac96734c0c27d",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_embedding_route.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_embedding_route.py",
+      "source_sha256": "bdf768384ffc2ad80b931e33ca39f9c4a4579a2885573ab381f16682777f099f",
+      "release_sha256": "bdf768384ffc2ad80b931e33ca39f9c4a4579a2885573ab381f16682777f099f",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_intentions.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_intentions.py",
+      "source_sha256": "ae16f9f63f38e57a2c37d82b5d9698217e50b3306ddfbbcb662378d941b0c6f7",
+      "release_sha256": "ae16f9f63f38e57a2c37d82b5d9698217e50b3306ddfbbcb662378d941b0c6f7",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_memory_baselines.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_memory_baselines.py",
+      "source_sha256": "af9765e5f876d308982620ba0d2e54592b07de77c5ee1f7b33d4932baa3cff8d",
+      "release_sha256": "af9765e5f876d308982620ba0d2e54592b07de77c5ee1f7b33d4932baa3cff8d",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_native_finish.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_native_finish.py",
+      "source_sha256": "3fe4da49bdc7ecce4ebb1eb29a30a1bbc947453388d5d6a34b0fbd12302a5476",
+      "release_sha256": "3fe4da49bdc7ecce4ebb1eb29a30a1bbc947453388d5d6a34b0fbd12302a5476",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_recommendation.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_recommendation.py",
+      "source_sha256": "02f8379ac94ce251e61a218aa647b69f32a1e235ebbf9848e0974c50f1edaca8",
+      "release_sha256": "02f8379ac94ce251e61a218aa647b69f32a1e235ebbf9848e0974c50f1edaca8",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_ren_confirmation.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_ren_confirmation.py",
+      "source_sha256": "ef46b041ae4061a770ecc47c161d18b3ffeddc1c294d6240ba8299368f8d70f9",
+      "release_sha256": "ef46b041ae4061a770ecc47c161d18b3ffeddc1c294d6240ba8299368f8d70f9",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_ren_decision.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_ren_decision.py",
+      "source_sha256": "ec695bf50bed3fc036d748fffb793209c3aea11f2d5bfe6c9437422455bc104b",
+      "release_sha256": "ec695bf50bed3fc036d748fffb793209c3aea11f2d5bfe6c9437422455bc104b",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_ren_grounded.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_ren_grounded.py",
+      "source_sha256": "1a7f16de9edf8df932772f229740b271cad8a52a6c0b722547db1bb236117be9",
+      "release_sha256": "1a7f16de9edf8df932772f229740b271cad8a52a6c0b722547db1bb236117be9",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_ren_natural.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_ren_natural.py",
+      "source_sha256": "9b98aaa3d3fc6afcd2261438a80775deb77c9432d68d0be0e316bc8ff5344d29",
+      "release_sha256": "9b98aaa3d3fc6afcd2261438a80775deb77c9432d68d0be0e316bc8ff5344d29",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_ren_verified.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_ren_verified.py",
+      "source_sha256": "b4df9bf3f703f4336f2a36901266085da7a862ab6f44f30ddda27f4db536bfbd",
+      "release_sha256": "b4df9bf3f703f4336f2a36901266085da7a862ab6f44f30ddda27f4db536bfbd",
+      "modified_for_release": false
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_residual_needs.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_residual_needs.py",
+      "source_sha256": "561c58dd2f4e9c57f94ac31aa2f61e1eb1b4b8ae2796099811dc9d66e0f7f6be",
+      "release_sha256": "bdb260cc75e635d2cf2f8d748e8650263f79b34c6c17bbaf1ce8e7ea64aff57b",
+      "modified_for_release": true
+    },
+    {
+      "path": "benchmarks/PMBench/local_tools/test_step3_budget.py",
+      "source_repository": "PMBench-local",
+      "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
+      "source_path": "local_tools/test_step3_budget.py",
+      "source_sha256": "33eae88975f7f1717d0f29fbe87d32b98bea8fe293e0b3f56cf42298f8e7bfe7",
+      "release_sha256": "33eae88975f7f1717d0f29fbe87d32b98bea8fe293e0b3f56cf42298f8e7bfe7",
+      "modified_for_release": false
+    },
+    {
+      "path": "a-mem/agentic_memory/evidence_needs.py",
+      "source_repository": "A-mem-local",
+      "source_commit": "1af4049f0edd839976a26529545f7e52034bd86c",
+      "source_path": "agentic_memory/evidence_needs.py",
+      "source_sha256": "577715dddb28d2d458466c3a6e864b2c40541a51fb553cddff62c9b12c6964de",
+      "release_sha256": "577715dddb28d2d458466c3a6e864b2c40541a51fb553cddff62c9b12c6964de",
+      "modified_for_release": false
+    },
+    {
+      "path": "a-mem/agentic_memory/memory_system.py",
+      "source_repository": "A-mem-local",
+      "source_commit": "1af4049f0edd839976a26529545f7e52034bd86c",
+      "source_path": "agentic_memory/memory_system.py",
+      "source_sha256": "fa58c3ed405e37d298a3d11e5cd69459bc9709004461c0e01fc0c497c77c949b",
+      "release_sha256": "fa58c3ed405e37d298a3d11e5cd69459bc9709004461c0e01fc0c497c77c949b",
+      "modified_for_release": false
+    },
+    {
+      "path": "a-mem/agentic_memory/retrievers.py",
+      "source_repository": "A-mem-local",
+      "source_commit": "1af4049f0edd839976a26529545f7e52034bd86c",
+      "source_path": "agentic_memory/retrievers.py",
+      "source_sha256": "a4cd9645b9df0774f7f67bdfff3cf4d1a41911b4bac3843208db2019b57e311d",
+      "release_sha256": "a4cd9645b9df0774f7f67bdfff3cf4d1a41911b4bac3843208db2019b57e311d",
+      "modified_for_release": false
+    },
+    {
+      "path": "a-mem/agentic_memory/llm_controller.py",
+      "source_repository": "A-mem-local",
+      "source_commit": "1af4049f0edd839976a26529545f7e52034bd86c",
+      "source_path": "agentic_memory/llm_controller.py",
+      "source_sha256": "44e7d228326fe78dd8ecb8c8176364511547f5fef7cd7d58e433e883caeae0bb",
+      "release_sha256": "44e7d228326fe78dd8ecb8c8176364511547f5fef7cd7d58e433e883caeae0bb",
+      "modified_for_release": false
+    },
+    {
+      "path": "a-mem/agentic_memory/prospective.py",
+      "source_repository": "A-mem-local",
+      "source_commit": "1af4049f0edd839976a26529545f7e52034bd86c",
+      "source_path": "agentic_memory/prospective.py",
+      "source_sha256": "b5fdb33a8ae7dd904b10d90b62d4f314d172ff6797f1fb6f2bfc38008cee4553",
+      "release_sha256": "b5fdb33a8ae7dd904b10d90b62d4f314d172ff6797f1fb6f2bfc38008cee4553",
+      "modified_for_release": false
+    },
+    {
+      "path": "a-mem/agentic_memory/__init__.py",
+      "source_repository": "A-mem-local",
+      "source_commit": "1af4049f0edd839976a26529545f7e52034bd86c",
+      "source_path": "agentic_memory/__init__.py",
+      "source_sha256": "36a9e7f1c95b82ffb99743e0c5c4ce95d83c9a430aac59f84ef3cbfab6145068",
+      "release_sha256": "36a9e7f1c95b82ffb99743e0c5c4ce95d83c9a430aac59f84ef3cbfab6145068",
+      "modified_for_release": false
+    },
+    {
+      "path": "a-mem/agentic_memory/recommendation.py",
+      "source_repository": "A-mem-local",
+      "source_commit": "1af4049f0edd839976a26529545f7e52034bd86c",
+      "source_path": "agentic_memory/recommendation.py",
+      "source_sha256": "ad196a6ba25c7bd3c6a51688e2d115c1f8d0699a5d86e5a8b1571819b682293d",
+      "release_sha256": "ad196a6ba25c7bd3c6a51688e2d115c1f8d0699a5d86e5a8b1571819b682293d",
+      "modified_for_release": false
+    }
+  ]
+}
