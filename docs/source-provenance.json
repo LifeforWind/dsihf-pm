@@ -133,7 +133,7 @@
       "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
       "source_path": "local_tools/openmodel_config.py",
       "source_sha256": "e05b93c5037f0279e680c4fd31c0d40b00399017959563faac09e46f3aac62e4",
-      "release_sha256": "7b527db37a3a84232b0dff141b0ba5fd59d6a9084494e9ef9f497ed0c93cdcd6",
+      "release_sha256": "329fdc760a9a83c585b9fa090606c5d565dc69b4c318fac3e99996f7a80d62b1",
       "modified_for_release": true
     },
     {

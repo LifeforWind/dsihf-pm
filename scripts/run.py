@@ -46,7 +46,7 @@ def commands(method,scenario,out):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--method',choices=METHODS,required=True)
-    p.add_argument('--profile',choices=['relay','qwen4b','gemma26b'],default='relay')
+    p.add_argument('--profile',choices=['relay','qwen9b','qwen4b','gemma26b'],default='relay')
     p.add_argument('--model',default='gpt-4o-mini-2024-07-18',help='Relay model; local profiles have fixed names')
     p.add_argument('--scenario',type=Path,default=BENCH/'data/synthetic_week_v9.json')
     p.add_argument('--out',type=Path,required=True)
@@ -58,7 +58,7 @@ def main():
     env=dict(os.environ,PMBENCH_PROFILE=a.profile,PMBENCH_MODEL=a.model,
              MEMORY_BASELINES_STOP=str(out/'STOP.json'),PAPER_BASELINES_STOP=str(out/'STOP.json'),
              RELAY_STOP_FILE=str(out/'STOP.json'),QWEN_STOP_FILE=str(out/'STOP.json'))
-    plan=dict(method=method,profile=a.profile,model=a.model if a.profile=='relay' else {'qwen4b':'Qwen3.5-4B','gemma26b':'gemma-4-26B-A4B-it'}[a.profile],run=cmd,audit=audit,step_query_cap=3,episode_query_cap=None)
+    plan=dict(method=method,profile=a.profile,model=a.model if a.profile=='relay' else {'qwen9b':'Qwen3.5-9B','qwen4b':'Qwen3.5-4B','gemma26b':'gemma-4-26B-A4B-it'}[a.profile],run=cmd,audit=audit,step_query_cap=3,episode_query_cap=None)
     if a.dry_run:
         print(json.dumps(plan,indent=2));return
     if not (BENCH/'sim/pm_bench.py').exists() or not scenario.exists():

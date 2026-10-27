@@ -6,6 +6,7 @@ from dotenv import dotenv_values
 WORKSPACE=Path(__file__).resolve().parents[3]
 VALUES=dotenv_values(WORKSPACE/'a-mem/.env')
 PROFILES={
+    'qwen9b':dict(model='Qwen3.5-9B',repo='Qwen/Qwen3.5-9B',port=8001,template={'enable_thinking':False}),
     'qwen4b':dict(model='Qwen3.5-4B',repo='Qwen/Qwen3.5-4B',port=8002,template={'enable_thinking':False}),
     'gemma26b':dict(model='gemma-4-26B-A4B-it',repo='google/gemma-4-26B-A4B-it',port=8003,template={'enable_thinking':False}),
 }

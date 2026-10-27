@@ -85,7 +85,7 @@ PMA 从固定 checkout 导入，无需安装其训练/服务框架。Mem0 必须
 
 ## 本地模型服务
 
-提供两个显式配置：`--profile qwen4b` 连接 `127.0.0.1:8002/v1`，模型名 `Qwen3.5-4B`；`--profile gemma26b` 连接 `127.0.0.1:8003/v1`，模型名 `gemma-4-26B-A4B-it`。服务需自行部署，关闭 thinking，并支持当前结构化输出请求。`--model` 仅控制 relay 配置。本仓库不启动或修改 GPU 服务；embedding 仍走配置的中转，REN judge 仍使用 Jev。
+提供三个显式配置：`--profile qwen9b` 连接 `127.0.0.1:8001/v1`，模型名 `Qwen3.5-9B`；`--profile qwen4b` 连接 `127.0.0.1:8002/v1`，模型名 `Qwen3.5-4B`；`--profile gemma26b` 连接 `127.0.0.1:8003/v1`，模型名 `gemma-4-26B-A4B-it`。服务需自行部署，关闭 thinking，并支持当前结构化输出请求。`--model` 仅控制 relay 配置。本仓库不启动或修改 GPU 服务；embedding 仍走配置的中转，REN judge 仍使用 Jev。
 
 ## 代码导航
 
