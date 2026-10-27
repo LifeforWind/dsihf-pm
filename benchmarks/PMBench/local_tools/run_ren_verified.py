@@ -35,7 +35,7 @@ def main():
     argv=sys.argv[1:];index=argv.index('--candidate-mode');mode=argv[index+1];del argv[index:index+2]
     args=base.parse_args(argv)
     sources=[Path(__file__),NEEDS_SOURCE]+[Path(__file__).with_name(n) for n in
-        ('run_ren_grounded.py','run_ren_natural.py','run_ren_situated.py','ren_public_frames.py','ren_source_compiler.py','residual_policy.py')]
+        ('run_ren_grounded.py','run_ren_natural.py','run_ren_situated.py','ren_public_frames.py','ren_source_compiler.py','residual_policy.py','compiler_failure.py')]
     with patch.object(base,'Compiler',VerifiedCompiler):
         base.main(args=args,policy_factory=partial(VerifiedPolicy,candidate_mode=mode),model_factory=SituatedModels,
             extra_sources=sources,extra_manifest=dict(ren_adapter='verified-ledger-v1',candidate_mode=mode,
@@ -44,6 +44,7 @@ def main():
                 source_span_repair='unique case-insensitive match restored to exact observed span',
                 condition_scope='only trigger; date already enforced',observation_frames='quote-grounded public text only',
                 model_identity_retries=2,evidence_validity='current public step only; inferred by adapter',
+                intention_compile_failure_policy='reject-truncated-intention-batch-v1',
                 receipt_interface_available=False,completion_feedback_exercised=False))
 
 if __name__=='__main__':main()

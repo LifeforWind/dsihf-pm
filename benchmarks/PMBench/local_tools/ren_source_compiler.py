@@ -2,6 +2,7 @@
 from copy import deepcopy
 import hashlib,json,re
 from run_intentions import IntentionStore,COMPILER_PROMPT,PROPOSALS_SCHEMA,append,write_json
+from compiler_failure import TruncatedCompilation, validate_failure_cache, digest
 
 ELLIPSIS = re.compile(r'\.{3,}|\u2026+')
 
@@ -96,8 +97,19 @@ class SourceCompiler:
         cache.mkdir(parents=True, exist_ok=True)
         self.hits = self.misses = 0
 
+    def reject_truncated(self,failure,previous,evidence_id,key,cache_hit):
+        self.draft=previous
+        event=dict(evidence_id=evidence_id,operation='reject_entire_truncated_compile_preserve_store',
+                   chat_cache_key=failure.key,**failure.entry['terminal_failure'],
+                   preserved_store_sha256=digest(previous.dump()),parsed_proposals=0)
+        append(self.models.out/'compiler_failures.jsonl',event)
+        append(self.models.out/'compilation.jsonl',dict(evidence_id=evidence_id,cache_key=key,
+               proposals=[],rejected=[],cache_hit=cache_hit,normalizations=[],failure=event))
+        return []
+
     def compile(self, evidence_id, text, day, step, channels):
         call_start = len(getattr(self.models, 'records', []))
+        previous=deepcopy(self.draft)
         self.draft.observe(evidence_id, text, day, step)
         state = dict(observation=text, today=day, channels=channels,
                      existing=[dict(id=i.id, status=i.status, **i.spec()) for i in self.draft.intents.values()])
@@ -107,10 +119,29 @@ class SourceCompiler:
         cache_hit = path.exists()
         if cache_hit:
             cached = json.loads(path.read_text())
+            assert cached['request']==messages
+            if 'terminal_failure' in cached:
+                assert 'result' not in cached
+                entry=dict(request=cached['failure_chat_request'],terminal_failure=cached['terminal_failure'],records=cached['model_records'])
+                validate_failure_cache(entry)
+                assert entry['request']['messages']==messages and entry['request']['model']==self.models.model
+                assert entry['request']['schema']==PROPOSALS_SCHEMA and entry['request']['max_tokens']==5500
+                failure=TruncatedCompilation(cached['failure_chat_key'],entry)
+                self.hits+=1
+                return self.reject_truncated(failure,previous,evidence_id,key,True)
             proposals = deepcopy(cached['result']['proposals'])
             self.hits += 1
         else:
-            result = self.models.chat('compile', messages, PROPOSALS_SCHEMA, 5500)
+            try:
+                result = self.models.chat('compile', messages, PROPOSALS_SCHEMA, 5500)
+            except TruncatedCompilation as failure:
+                self.misses+=1
+                entry=failure.entry
+                cached=dict(request=messages,evidence_id=evidence_id,
+                            terminal_failure=entry['terminal_failure'],failure_chat_key=failure.key,
+                            failure_chat_request=entry['request'],model_records=entry['records'])
+                write_json(path,cached)
+                return self.reject_truncated(failure,previous,evidence_id,key,False)
             proposals = deepcopy(result['proposals'])
             cached = dict(result=result, evidence_id=evidence_id, request=messages)
             self.misses += 1

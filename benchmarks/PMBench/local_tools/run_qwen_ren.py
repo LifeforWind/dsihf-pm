@@ -5,7 +5,7 @@ from unittest.mock import patch
 from dotenv import dotenv_values
 from openai.resources.chat.completions import Completions
 import run_ren_confirmation as frozen
-from qwen_transport import BASE_URL, MODEL, TRANSPORT, check_route
+from qwen_transport import BASE_URL, MODEL, TRANSPORT, check_route, map_disconnect
 from openmodel_config import KEY, PROFILE
 from run_recommendation import WORKSPACE, append, write_json
 
@@ -17,7 +17,7 @@ def main():
     assert '--model' not in sys.argv and '--base-url' not in sys.argv
     sys.argv += ['--model', MODEL, '--base-url', BASE_URL]
     out = Path(sys.argv[sys.argv.index('--out')+1])
-    create, urlopen = Completions.create, urllib.request.urlopen
+    create, urlopen = Completions.create, map_disconnect(urllib.request.urlopen)
     original_main = frozen.base.main
     def configured_main(**kwargs):
         kwargs['llm_timeout'] = 600

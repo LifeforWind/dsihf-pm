@@ -8,10 +8,12 @@ from run_recommendation import digest, write_json
 from run_intentions import PROPOSALS_SCHEMA
 from qwen_transport import MODEL, TRANSPORT, BASE_URL, payload_for, validate_response
 from openmodel_config import TEMPLATE, PROFILE
+from compiler_failure import validate_failure_cache
 
 TRACE_FILES = ('decisions.jsonl','queries.jsonl','recommendations.jsonl','revisions.jsonl',
     'condition_contracts.jsonl','condition_evidence.jsonl','observation_bindings.jsonl',
-    'ledger_decisions.jsonl','public_frames.jsonl','situated_evidence.jsonl','compiler_contexts.jsonl')
+    'ledger_decisions.jsonl','public_frames.jsonl','situated_evidence.jsonl','compiler_contexts.jsonl',
+    'compiler_failures.jsonl')
 
 def provenance(week):
     physical = {}
@@ -29,7 +31,7 @@ def provenance(week):
                 total['responses_without_returned_cost'] += 1
             else:
                 total['returned_cost_usd'] += u['cost']
-    chats = {}
+    chats = {};failed_chats=0;failed_compilers=0
     for path in (week/'natural-chat-cache').glob('*.json'):
         c = json.loads(path.read_text()); req = c['request']
         assert digest(req) == path.stem and c['records']
@@ -40,8 +42,13 @@ def provenance(week):
         assert last['kind'] == 'llm' and last['stage'] == req['stage']
         assert last['request'] == payload_for(req['stage'],req['messages'],req['schema'],req['max_tokens'])
         validate_response(last['response'],req['schema'])
-        assert last['response']['choices'][0]['finish_reason'] == 'stop'
-        assert json.loads(last['response']['choices'][0]['message']['content']) == c['result']
+        if 'terminal_failure' in c:
+            validate_failure_cache(c)
+            assert req['stage']=='compile' and req['schema']==PROPOSALS_SCHEMA
+            failed_chats+=1
+        else:
+            assert last['response']['choices'][0]['finish_reason'] == 'stop'
+            assert json.loads(last['response']['choices'][0]['message']['content']) == c['result']
         chats[path.stem] = c
     judges = 0
     for path in (week/'judge-cache').glob('*.json'):
@@ -54,11 +61,19 @@ def provenance(week):
         assert hashlib.sha256(json.dumps([MODEL,c['request'],PROPOSALS_SCHEMA],sort_keys=True).encode()).hexdigest() == path.stem
         req = dict(stage='compile',model=MODEL,messages=c['request'],schema=PROPOSALS_SCHEMA,
             max_tokens=5500,temperature=0,route='configured-direct',thinking='disabled',transport=TRANSPORT)
-        assert c['result'] == chats[digest(req)]['result']
+        if 'terminal_failure' in c:
+            assert 'result' not in c and c['failure_chat_request']==req
+            assert c['failure_chat_key']==digest(req)
+            failed=chats[digest(req)];validate_failure_cache(failed)
+            assert c['terminal_failure']==failed['terminal_failure'] and c['model_records']==failed['records']
+            failed_compilers+=1
+        else:
+            assert c['result'] == chats[digest(req)]['result']
         assert all(digest(row) in physical for row in c['model_records'])
         compilers += 1
     return dict(status='passed',chat_caches=len(chats),judge_caches=judges,compiler_caches=compilers,
-        all_cache_responses_physically_logged=True,usage=totals)
+        all_cache_responses_physically_logged=True,usage=totals,
+        terminal_compile_chat_caches=failed_chats,terminal_compile_outer_caches=failed_compilers)
 
 def audit(run,dest):
     m = json.loads((run/'manifest.json').read_text())

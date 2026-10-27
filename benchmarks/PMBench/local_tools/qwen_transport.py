@@ -2,9 +2,18 @@
 from copy import deepcopy
 import json
 import jsonschema
+import http.client,urllib.error
 
 from openmodel_config import MODEL, BASE as BASE_URL, TEMPLATE, PROFILE
 TRANSPORT = 'openmodel-native-json-schema-v2'
+
+def map_disconnect(opener):
+    """Use the evaluator's existing bounded retry before any complete response."""
+    def wrapped(*args,**kwargs):
+        try:return opener(*args,**kwargs)
+        except http.client.RemoteDisconnected:
+            raise urllib.error.URLError('RemoteDisconnected before complete HTTP response') from None
+    return wrapped
 
 def payload_for(stage, messages, schema, max_tokens):
     assert stage.startswith('compile'), 'Only compiler calls may use Qwen'

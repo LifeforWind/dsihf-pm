@@ -112,7 +112,7 @@ def replay(run,target):
         actions=pm.run_llm(scenario,str(target/'actions.jsonl'),'offline',None,5,'sglang',None,None)
     assert actions==pm.read_log(str(run/'actions.jsonl'))
     for name in ('decisions.jsonl','queries.jsonl','recommendations.jsonl','revisions.jsonl',
-                 'condition_contracts.jsonl','condition_evidence.jsonl','observation_bindings.jsonl','ledger_decisions.jsonl','public_frames.jsonl','situated_evidence.jsonl','compiler_contexts.jsonl','semantic_candidates.jsonl'):
+                 'condition_contracts.jsonl','condition_evidence.jsonl','observation_bindings.jsonl','ledger_decisions.jsonl','public_frames.jsonl','situated_evidence.jsonl','compiler_contexts.jsonl','semantic_candidates.jsonl','compiler_failures.jsonl'):
         assert rows(target/name)==rows(run/name),name
     for name in ('compilation.jsonl','judge_requests.jsonl'):
         assert [r['cache_key'] for r in rows(target/name)]==[r['cache_key'] for r in rows(run/name)]

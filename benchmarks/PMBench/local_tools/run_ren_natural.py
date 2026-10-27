@@ -17,6 +17,7 @@ import time
 import run_recommendation as base
 from run_intentions import obj, deterministic_trigger, prospective
 from residual_policy import EvidenceNeeds, Condition, TaskSpec, SOURCE as NEEDS_SOURCE
+from compiler_failure import TruncatedCompilation, failure_cache_entry, validate_failure_cache
 
 SCENE = '__visible_scene__'
 RECEIPT = '__unavailable_execution_receipt__'
@@ -65,8 +66,7 @@ class NaturalModels(base.CachedModels):
         self.check_week_budget()
         return super().evaluate(*args,**kwargs)
 
-    def chat(self, stage, messages, schema, max_tokens):
-        self.check_week_budget()
+    def chat_request(self,stage,messages,schema,max_tokens):
         request = dict(stage=stage, model=self.model, messages=messages, schema=schema,
                        max_tokens=max_tokens, temperature=0, route='configured-direct')
         if self.model == 'deepseek-flash':
@@ -75,6 +75,11 @@ class NaturalModels(base.CachedModels):
         if self.model == MODEL:
             from qwen_transport import TRANSPORT
             request.update(thinking='disabled', transport=TRANSPORT)
+        return request
+
+    def chat(self, stage, messages, schema, max_tokens):
+        self.check_week_budget()
+        request=self.chat_request(stage,messages,schema,max_tokens)
         key = base.digest(request)
         folder = self.judge_cache.parent/'natural-chat-cache'
         folder.mkdir(exist_ok=True)
@@ -82,6 +87,10 @@ class NaturalModels(base.CachedModels):
         if path.exists():
             row = json.loads(path.read_text())
             assert row['request'] == request and row['records']
+            if 'terminal_failure' in row:
+                validate_failure_cache(row)
+                base.append(self.out/'natural_chat_requests.jsonl',dict(stage=stage,key=key))
+                raise TruncatedCompilation(key,row)
             assert row['records'][-1]['response']['model'] == self.model
             result = row['result']
             assert json.loads(row['records'][-1]['response']['choices'][0]['message']['content']) == result
@@ -94,6 +103,11 @@ class NaturalModels(base.CachedModels):
                     result = super().chat(stage, messages, schema, max_tokens)
                     break
                 except Exception as exc:
+                    if stage=='compile' and type(exc) is RuntimeError and str(exc)=='Incomplete model response: length':
+                        failed=failure_cache_entry(request,self.records[before:])
+                        base.write_json(path,failed)
+                        base.append(self.out/'natural_chat_requests.jsonl',dict(stage=stage,key=key))
+                        raise TruncatedCompilation(key,failed) from None
                     if type(exc).__name__ not in ('APIConnectionError','APITimeoutError','RateLimitError','InternalServerError'):
                         raise
                     base.append(self.out/'api_errors.jsonl',dict(stage=stage,error_type=type(exc).__name__,attempt=attempt+1))

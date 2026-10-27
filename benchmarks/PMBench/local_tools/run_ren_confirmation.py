@@ -41,7 +41,7 @@ def main():
     policy=ConfirmationVerifiedPolicy if adapter=='verified' else ConfirmationPolicy
     sources=[Path(__file__),NEEDS_SOURCE]+[Path(__file__).with_name(n) for n in
         ('run_ren_verified.py','run_ren_grounded.py','run_ren_natural.py','run_ren_situated.py','ren_public_frames.py',
-         'ren_source_compiler.py','ren_confirmation_policy.py','residual_policy.py')]
+         'ren_source_compiler.py','ren_confirmation_policy.py','residual_policy.py','compiler_failure.py')]
     with patch.object(base,'Compiler',compiler):
         base.main(args=args,policy_factory=partial(policy,candidate_mode=mode,episode_cap=cap),
             model_factory=model,extra_sources=sources,extra_manifest=dict(ren_adapter=adapter+'-confirmation-v1',
@@ -50,6 +50,7 @@ def main():
                 confirmation_per_week_limits=dict(responses=4000,input_tokens=12000000,returned_usd=2),
                 natural_language_entry=True,structured_oracle_contracts=False,private_step_timestamp_passed=False,
                 model_identity_retries=2,evidence_validity='current public step only; inferred by adapter',
+                intention_compile_failure_policy='reject-truncated-intention-batch-v1',
                 receipt_interface_available=False,completion_feedback_exercised=False))
 
 if __name__=='__main__':
