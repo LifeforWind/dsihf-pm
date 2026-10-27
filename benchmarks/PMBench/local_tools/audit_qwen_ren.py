@@ -80,6 +80,19 @@ def provenance(week):
         all_cache_responses_physically_logged=True,usage=totals,
         terminal_compile_chat_caches=failed_chats,terminal_compile_outer_caches=failed_compilers)
 
+def check_routes(run,manifest):
+    fresh=rows(run/'model_calls.jsonl');routes=rows(run/'route_events.jsonl')
+    assert manifest['api_calls']==len(fresh)
+    assert routes or not fresh, 'Physical responses require route records'
+    for event in routes:
+        if event['model']==MODEL:
+            assert event['url']==BASE_URL+'/chat/completions'
+            assert event['thinking']==(TEMPLATE if PROFILE != 'relay' else None)
+        else:
+            assert event['model']=='typesafe/jev-1.13'
+            assert event['url']=='https://openrouter.ai/api/alpha/decisions'
+    return dict(route_events_checked=len(routes),cache_only_no_new_model_calls=not fresh)
+
 def audit(run,dest):
     m = json.loads((run/'manifest.json').read_text())
     assert m['status']=='complete' and m['compiler_model']==MODEL and m['thinking']=='disabled'
@@ -91,15 +104,7 @@ def audit(run,dest):
         for name in TRACE_FILES:
             old = rows(prior/name)
             assert rows(run/name)[:len(old)]==old,(str(prior),name)
-    routes = rows(run/'route_events.jsonl')
-    assert routes
-    for event in routes:
-        if event['model']==MODEL:
-            assert event['url']==BASE_URL+'/chat/completions'
-            assert event['thinking']==(TEMPLATE if PROFILE != 'relay' else None)
-        else:
-            assert event['model']=='typesafe/jev-1.13'
-            assert event['url']=='https://openrouter.ai/api/alpha/decisions'
+    result.update(check_routes(run,m))
     result['provenance'] = provenance(run.parent)
     result['all_prior_prefixes_exact'] = True
     write_json(dest/'audit.json',result)

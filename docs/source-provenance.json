@@ -43,7 +43,7 @@
       "source_commit": "0e9f5e0491ffcd6caf7649071e82fcff0b67bb02",
       "source_path": "local_tools/audit_qwen_ren.py",
       "source_sha256": "4663c69e2327615eb086c443ef95cb53fec763eb2a43e0aaa18c9d6a8d0ddd73",
-      "release_sha256": "562c89cd8df8a11178521244508d01fa292c1ec146d16f28d5a085c98bd8184f",
+      "release_sha256": "45ceac036e5f020236a356b616d8ae14658dddb12a1a20cbaa2c720b346a1f72",
       "modified_for_release": true
     },
     {

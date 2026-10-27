@@ -10,7 +10,7 @@ from ren_public_frames import normalize,SCHEMA as FRAMES_SCHEMA
 from run_intentions import Models,PROPOSALS_SCHEMA
 from openmodel_config import MODEL
 from qwen_transport import payload_for,map_disconnect
-from audit_qwen_ren import provenance
+from audit_qwen_ren import provenance,check_routes
 
 def rows(path):
     return [json.loads(x) for x in path.read_text().splitlines()] if path.exists() else []
@@ -202,5 +202,20 @@ class TruncatedStagesTests(unittest.TestCase):
             self.assertEqual(frames['failure']['max_tokens'],1800)
             self.assertEqual(frames['failure']['parsed_facts'],0)
             self.assertEqual(frames['failure']['operation'],'reject_truncated_public_frames_preserve_original_observation')
+
+class CacheOnlyRouteAuditTests(unittest.TestCase):
+    def test_cache_only_replay_has_no_fabricated_route_or_response(self):
+        with tempfile.TemporaryDirectory() as temp:
+            self.assertTrue(check_routes(Path(temp),dict(api_calls=0))['cache_only_no_new_model_calls'])
+
+    def test_physical_response_cannot_bypass_route_audit(self):
+        with tempfile.TemporaryDirectory() as temp:
+            out=Path(temp);(out/'model_calls.jsonl').write_text('{}\n')
+            with self.assertRaises(AssertionError):check_routes(out,dict(api_calls=1))
+
+    def test_manifest_cannot_hide_physical_responses_as_cache_only(self):
+        with tempfile.TemporaryDirectory() as temp:
+            out=Path(temp);(out/'model_calls.jsonl').write_text('{}\n')
+            with self.assertRaises(AssertionError):check_routes(out,dict(api_calls=0))
 
 if __name__=='__main__':unittest.main()
