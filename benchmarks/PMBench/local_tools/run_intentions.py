@@ -71,6 +71,16 @@ For add, use a placeholder ID; code will allocate a unique ID. For revise/cancel
 the exact existing ID. Every proposal needs an EXACT source_quote copied from
 observation. It must support the change. For revise include the complete updated spec,
 preserving all fields not explicitly changed. For cancel copy the previous spec.
+source_quote is a literal evidence field, not a summary of spec.action. Copy ONE
+CONTIGUOUS substring of observation character for character. Never insert ellipses,
+omit intervening words, join separate fragments, or rewrite punctuation in this field.
+When splitting one instruction into multiple intentions, reuse its complete original
+sentence as source_quote for each intention. The same quote may support more than one
+proposal; only spec.action and spec.trigger should distinguish the occurrences.
+For example, given observation 'Inspect the filter before opening and after closing.',
+both split intentions quote 'Inspect the filter before opening and after closing.'
+Do not quote 'Inspect the filter ... after closing.' or 'Inspect the filter after closing.'
+because neither is a contiguous substring of that observation.
 Split each distinct occurrence: antibiotic breakfast/dinner and medication 11:00/21:00
 are separate intentions. Regular daily instructions use day=EVERYDAY; otherwise use the
 explicit named day or today's day. Preserve cross-day intentions, including future days.
